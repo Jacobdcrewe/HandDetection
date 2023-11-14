@@ -6,7 +6,7 @@ Detect a left or right hand on video
 
 Run the following
 
-`pip install mediapip`
+`pip install mediapipe`
 
 `pip install opencv-python`
 
