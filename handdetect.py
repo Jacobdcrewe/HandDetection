@@ -25,13 +25,29 @@ connections = [
     (13, 14), (14, 15), (15, 16),
     (17, 18), (18, 19), (19, 20),
 ]
-
+l_conf_sum = 0
+r_conf_sum = 0
+l_conf_len = 0
+r_conf_len = 0
+l_conf_avg = 0
+r_conf_avg = 0
 while True:
     # Read video frame by frame
     success, img = cap.read()
 
     # Flip the image(frame)
     img = cv2.flip(img, 1)
+
+    # Resize the image
+    # Resize the image while maintaining aspect ratio
+    width = 1024
+    height = 600
+    aspect_ratio = img.shape[1] / img.shape[0]
+    if width / aspect_ratio <= height:
+        new_size = (int(width), int(width / aspect_ratio))
+    else:
+        new_size = (int(height * aspect_ratio), int(height))
+    img = cv2.resize(img, new_size)
 
     # Convert BGR image to RGB image
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -61,7 +77,9 @@ while True:
                 end_point = landmarks_list[connection[1]]
                 cv2.line(img, start_point, end_point, (0, 255, 0), 2)
 
-            confidence_text = f'Confidence: {round(confidence * 100, 2)}%'
+            # Confidence value and text
+            rounded_confidence = round(confidence * 100, 2)
+            confidence_text = f'Confidence: {rounded_confidence}%'
 
             if label == 'Left':
                 # Display 'Left Hand' on the left side of the window
@@ -74,7 +92,9 @@ while True:
                 text_x = img.shape[1] - 20 - text_size[0]
                 cv2.putText(img, confidence_text, (text_x, 50),
                             cv2.FONT_HERSHEY_COMPLEX, 0.9, (0, 255, 0), 2, cv2.LINE_AA)
-
+                l_conf_sum += rounded_confidence
+                l_conf_len += 1
+                l_conf_avg = l_conf_sum / l_conf_len
             elif label == 'Right':
                 # Display 'Right Hand' on the right side of the window
                 cv2.putText(img, label+' Hand', (20, 100),
@@ -85,13 +105,18 @@ while True:
                 text_x = img.shape[1] - 20 - text_size[0]
                 cv2.putText(img, confidence_text, (text_x, 100),
                             cv2.FONT_HERSHEY_COMPLEX, 0.9, (0, 255, 0), 2, cv2.LINE_AA)
+                r_conf_sum += rounded_confidence
+                r_conf_len += 1
+                r_conf_avg = r_conf_sum / r_conf_len
 
     # Display Video and exit when 'q' is pressed
     cv2.imshow('Image', img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        # Display the average confidence value of both hands
+        print(f'Left Hand Confidence Average: {l_conf_avg}%')
+        print(f'Right Hand Confidence Average: {r_conf_avg}%')
         break
 
 # Release the video capture object and close the OpenCV window
 cap.release()
 cv2.destroyAllWindows()
-
