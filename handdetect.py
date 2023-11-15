@@ -18,11 +18,11 @@ cap = cv2.VideoCapture(0)
 
 # Define connections between landmarks
 connections = [
-    (0, 1), (0, 5), (0,17), (0, 9), (0, 13),
+    (0, 1), (0, 5), (0,17),
     (1, 2), (2, 3), (3, 4),
-    (5, 6), (6, 7), (7, 8),
-    (9, 10), (10, 11), (11, 12),
-    (13, 14), (14, 15), (15, 16),
+    (5, 6), (5,9), (6, 7), (7, 8),
+    (9, 10), (9, 13), (10, 11), (11, 12),
+    (13, 14), (13, 17), (14, 15), (15, 16),
     (17, 18), (18, 19), (19, 20),
 ]
 l_conf_sum = 0
@@ -113,8 +113,8 @@ while True:
     cv2.imshow('Image', img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         # Display the average confidence value of both hands
-        print(f'Left Hand Confidence Average: {l_conf_avg}%')
-        print(f'Right Hand Confidence Average: {r_conf_avg}%')
+        print(f'Left Hand Confidence Average: {l_conf_avg}% from {l_conf_len} frames')
+        print(f'Right Hand Confidence Average: {r_conf_avg}% from {r_conf_len} frames')
         break
 
 # Release the video capture object and close the OpenCV window
