@@ -63,19 +63,22 @@ while True:
             label = MessageToDict(hand_info)['classification'][0]['label']
             confidence = MessageToDict(hand_info)['classification'][0]['score']
 
-            # Draw landmarks on the image
+            # Create Landmarks list
             h, w, _ = img.shape
             landmarks_list = []
             for lm in hand_landmarks.landmark:
                 x, y = int(lm.x * w), int(lm.y * h)
                 landmarks_list.append((x, y))
-                cv2.circle(img, (x, y), 8, (255, 0, 0), -1)
 
             # Draw lines between landmarks
             for connection in connections:
                 start_point = landmarks_list[connection[0]]
                 end_point = landmarks_list[connection[1]]
-                cv2.line(img, start_point, end_point, (0, 255, 0), 2)
+                cv2.line(img, start_point, end_point, (255, 255, 255), 2)
+
+            # Draw circles on landmarks (after bc display over lines)
+            for lm in landmarks_list:
+                cv2.circle(img, lm, 4, (255, 255, 0), -1)
 
             # Confidence value and text
             rounded_confidence = round(confidence * 100, 2)
