@@ -2,7 +2,7 @@
 
 Detect a left or right hand on video and display the hand land marks on the hands.
 The hand landmarks model is shown on the image below.
-[Hand Landmark Model](https://developers.google.com/static/mediapipe/images/solutions/hand-landmarks.png)
+![Hand Landmark Model](https://developers.google.com/static/mediapipe/images/solutions/hand-landmarks.png)
 
 ## Setup
 
