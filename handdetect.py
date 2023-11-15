@@ -40,8 +40,8 @@ while True:
 
     # Resize the image
     # Resize the image while maintaining aspect ratio
-    width = 1024
-    height = 600
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) / 2)
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) / 2)
     aspect_ratio = img.shape[1] / img.shape[0]
     if width / aspect_ratio <= height:
         new_size = (int(width), int(width / aspect_ratio))
