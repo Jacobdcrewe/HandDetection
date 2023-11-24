@@ -40,8 +40,8 @@ while True:
 
     # Resize the image
     # Resize the image while maintaining aspect ratio
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH) / 2)
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) / 2)
+    width = 800    
+    height = 600
     aspect_ratio = img.shape[1] / img.shape[0]
     if width / aspect_ratio <= height:
         new_size = (int(width), int(width / aspect_ratio))
@@ -114,7 +114,7 @@ while True:
 
     # Display Video and exit when 'q' is pressed
     cv2.imshow('Image', img)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if (cv2.waitKey(1) & 0xFF == ord('q')) or l_conf_len == 1000 or r_conf_len == 1000:
         # Display the average confidence value of both hands
         print(f'Left Hand Confidence Average: {l_conf_avg}% from {l_conf_len} frames')
         print(f'Right Hand Confidence Average: {r_conf_avg}% from {r_conf_len} frames')
